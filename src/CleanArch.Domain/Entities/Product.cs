@@ -45,9 +45,6 @@ namespace CleanArch.Domain.Entities
             DomainExceptionValidation.When(string.IsNullOrEmpty(image)
                 , "Invalid image.");
 
-            DomainExceptionValidation.When(name.Length < 3
-                , "Name is too short. Minimum 3 characters.");
-
             DomainExceptionValidation.When(description.Length < 3
                 , "Description is too short. Minimum 5 characters.");
 

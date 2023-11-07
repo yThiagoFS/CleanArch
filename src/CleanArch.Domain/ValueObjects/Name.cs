@@ -18,10 +18,10 @@ namespace CleanArch.Domain.ValueObjects
 
         private void Validate(string value)
         {
-            DomainExceptionValidation.When(string.IsNullOrEmpty(value)
+            ValueObjectExceptionValidation.When(string.IsNullOrEmpty(value)
             , "Name is required.");
 
-            DomainExceptionValidation.When(value.Length < 3
+            ValueObjectExceptionValidation.When(value.Length < 3
             , "Name is too short. Minimum 3 characters.");
 
             this.Value = value;
