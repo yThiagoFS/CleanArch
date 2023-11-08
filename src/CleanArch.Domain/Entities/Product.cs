@@ -39,16 +39,19 @@ namespace CleanArch.Domain.Entities
 
         private void ValidateDomain(string name, string description, decimal price, int stock, string image)
         {
+            DomainExceptionValidation.When(name.Length > 60
+                , "Name is too large. Maximum 60 characters.");
+
             DomainExceptionValidation.When(string.IsNullOrEmpty(description)
                 , "Invalid description.");
 
             DomainExceptionValidation.When(string.IsNullOrEmpty(image)
                 , "Invalid image.");
 
-            DomainExceptionValidation.When(description.Length < 3
+            DomainExceptionValidation.When(description.Length < 5
                 , "Description is too short. Minimum 5 characters.");
 
-            DomainExceptionValidation.When(price.Equals(0)
+            DomainExceptionValidation.When(price < 0
                 , "Invalid price. Price should be bigger than 0.");
 
             DomainExceptionValidation.When(stock < 0

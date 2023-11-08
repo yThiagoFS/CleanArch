@@ -25,7 +25,7 @@ namespace CleanArch.Domain.Entities
         private void ValidateDomain(string name)
         {
             DomainExceptionValidation.When(name.Length > 60
-            , "Name is too large. Maximum 60 characters");
+            , "Name is too large. Maximum 60 characters.");
 
             this.Name = name;
         }
