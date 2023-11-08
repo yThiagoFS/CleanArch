@@ -1,9 +1,7 @@
-﻿using CleanArch.Domain.Entities;
-using CleanArch.Domain.Validation;
+﻿using CleanArch.Domain.Validation;
 using CleanArch.UnitTests.Builders;
 using CleanArch.UnitTests.Utils;
 using FluentAssertions;
-using System.Text;
 
 namespace CleanArch.UnitTests.Domain
 {
@@ -75,6 +73,23 @@ namespace CleanArch.UnitTests.Domain
         public void ShouldThrowDomainExceptionWithDescriptionTooShortMessage(int descriptionLength)
         {
             var message = "Description is too short. Minimum 5 characters.";
+
+            var productBuilder = new ProductBuilder();
+
+            productBuilder.Invoking(m => m.Build(description: GenerateRandomText.Generate(descriptionLength)))
+                .Should()
+                .Throw<DomainExceptionValidation>()
+                .WithMessage(message);
+        }
+
+        [Theory]
+        [InlineData(256)]
+        [InlineData(300)]
+        [InlineData(305)]
+        [InlineData(310)]
+        public void ShouldThrowDomainExceptionWithDescriptionTooLargeMessage(int descriptionLength)
+        {
+            var message = "Description is too large. Maximum 255 characters.";
 
             var productBuilder = new ProductBuilder();
 

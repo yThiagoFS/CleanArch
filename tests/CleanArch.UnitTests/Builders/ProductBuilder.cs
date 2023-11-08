@@ -14,7 +14,7 @@ namespace CleanArch.UnitTests.Builders
             => new Faker<Product>()
                 .CustomInstantiator(f => new Product(
                     name ?? f.Name.FirstName()
-                    , description ?? f.Lorem.Paragraphs(1)
+                    , description ?? f.Lorem.Letter(f.Random.Int(0, 255))
                     , price ?? f.Random.Decimal()
                     , stock ?? f.Random.Int(0)
                     , image ?? Bogus.DataSets.LoremPixelCategory.Random));

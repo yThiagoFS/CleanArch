@@ -4,7 +4,7 @@ namespace CleanArch.Domain.Entities
 {
     public abstract class Entity
     {
-        protected long Id { get; set; }
+        public long Id { get; protected set; }
 
         protected void ValidateId(long id)
         {

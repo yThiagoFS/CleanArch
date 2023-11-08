@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CleanArch.UnitTests.Utils
+﻿namespace CleanArch.UnitTests.Utils
 {
     public static class GenerateRandomText
     {
