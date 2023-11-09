@@ -8,7 +8,7 @@ namespace CleanArch.Infra.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.ToTable("Product");
+            builder.ToTable("Products");
 
             builder.HasKey(p => p.Id);
 

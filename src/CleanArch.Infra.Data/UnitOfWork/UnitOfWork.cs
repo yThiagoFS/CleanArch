@@ -13,16 +13,12 @@ namespace CleanArch.Infra.Data.UnitOfWork
         private bool disposed = false;
 
         public UoW(ApplicationDbContext context)
-        {
-            this._context = context;
-        }
+            => this._context = context;
 
         public IRepository<TEntity> GetRepository<TEntity>() where TEntity : Entity
         {
             if (this._repositories.ContainsKey(typeof(TEntity)))
-            {
                 return (IRepository<TEntity>)this._repositories[typeof(TEntity)];
-            }
 
             var repository = new Repository<TEntity>(this._context);
             this._repositories.Add(typeof(TEntity), repository);
@@ -30,29 +26,19 @@ namespace CleanArch.Infra.Data.UnitOfWork
         }
 
         public async Task Commit()
-        {
-            await this._context.SaveChangesAsync();
-        }
+            => await this._context.SaveChangesAsync();
 
         public async Task Rollback()
-        {
-            await this._context.Database.RollbackTransactionAsync();
-        }
+            => await this._context.Database.RollbackTransactionAsync();
 
         public async Task Dispose()
-        {
-            await Dispose(true);
-        }
+            => await Dispose(true);
 
         protected virtual async Task Dispose(bool disposing)
         {
             if (!this.disposed)
-            {
                 if(disposing)
-                {
                     await this._context.DisposeAsync();
-                }
-            }
 
             this.disposed = true;
         }

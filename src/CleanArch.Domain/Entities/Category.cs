@@ -5,12 +5,23 @@ namespace CleanArch.Domain.Entities
 {
     public sealed class Category : Entity
     {
+        protected Category()
+        {
+
+        }
+
         public Category(string name)
         {
             ValidateDomain(name);
         }
 
         public Category(long id, string name)
+        {
+            ValidateId(id);
+            ValidateDomain(name);
+        }
+
+        public Category(long id, Name name)
         {
             ValidateId(id);
             ValidateDomain(name);

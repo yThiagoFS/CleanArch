@@ -5,6 +5,11 @@ namespace CleanArch.Domain.Entities
 {
     public sealed class Product : Entity
     {
+        protected Product()
+        {
+
+        }
+
         public Product(string name, string description
             , decimal price, int stock, string image)
             => this.ValidateDomain(name, description, price, stock, image);
@@ -26,7 +31,7 @@ namespace CleanArch.Domain.Entities
 
         public string Image { get; private set; }
 
-        public int CategoryId { get; set; }
+        public long CategoryId { get; set; }
 
         public Category Category { get; set; }
 

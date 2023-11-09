@@ -11,18 +11,17 @@ namespace CleanArch.Infra.Data.Mappings
             builder.HasKey(c => c.Id);
 
             builder
+                .Property(p => p.Id)
+                .ValueGeneratedNever()
+                .IsRequired();
+
+            builder
                 .OwnsOne(c => c.Name)
                 .Property(n => n.Value)
                 .HasColumnName("Name")
                 .HasMaxLength(60)
                 .HasColumnType("VARCHAR")
                 .IsRequired();
-
-            builder
-                .HasData(
-                    new Category(1, "School Materials")
-                    , new Category(2, "Acessories")
-                    , new Category(3, "Garden"));
         }
     }
 }
