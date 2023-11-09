@@ -1,4 +1,7 @@
-﻿using CleanArch.Domain.Repositories;
+﻿using CleanArch.Application.AutoMapper;
+using CleanArch.Application.Interfaces;
+using CleanArch.Application.Services;
+using CleanArch.Domain.Repositories;
 using CleanArch.Domain.UnitOfWork;
 using CleanArch.Infra.Data.Context;
 using CleanArch.Infra.Data.Repositories;
@@ -25,6 +28,12 @@ namespace CleanArch.Infra.IoC
 
         public static void RegisterServices(this IServiceCollection services)
         {
+
+            services.AddAutoMapper(typeof(DomainToDtoMappingProfile).Assembly);
+
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+
             services.AddScoped<IUnitOfWork, UoW>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IProductRepository,ProductRepository>();

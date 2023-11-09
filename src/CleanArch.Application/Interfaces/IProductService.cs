@@ -1,5 +1,4 @@
 ﻿using CleanArch.Application.DTOs;
-using CleanArch.Domain.Entities;
 
 namespace CleanArch.Application.Interfaces
 {
@@ -15,7 +14,7 @@ namespace CleanArch.Application.Interfaces
 
         Task<ProductDto> GetProductById(long? id, CancellationToken cancellationToken);
 
-        Task<Product?> GetWithCategoryById(long? id, CancellationToken cancellationToken);
+        Task<ProductDto?> GetWithCategoryById(long? id, CancellationToken cancellationToken);
 
         Task<ProductDto> UpdateProduct(ProductDto productDto, CancellationToken cancellationToken);
     }
