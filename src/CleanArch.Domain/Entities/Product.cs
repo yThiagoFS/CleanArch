@@ -14,7 +14,7 @@ namespace CleanArch.Domain.Entities
             , decimal price, int stock, string image)
             => this.ValidateDomain(name, description, price, stock, image);
 
-        public Product(int id, string name, string description
+        public Product(long id, string name, string description
             , decimal price, int stock, string image)
         {
             this.ValidateId(id);

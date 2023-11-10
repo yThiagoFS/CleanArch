@@ -1,5 +1,6 @@
 ﻿using CleanArch.Application.AutoMapper;
 using CleanArch.Application.Interfaces;
+using CleanArch.Application.Products.Handlers;
 using CleanArch.Application.Services;
 using CleanArch.Domain.Repositories;
 using CleanArch.Domain.UnitOfWork;
@@ -28,6 +29,7 @@ namespace CleanArch.Infra.IoC
 
         public static void RegisterServices(this IServiceCollection services)
         {
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ProductCommandHandler).Assembly));
 
             services.AddAutoMapper(typeof(DomainToDtoMappingProfile).Assembly);
 

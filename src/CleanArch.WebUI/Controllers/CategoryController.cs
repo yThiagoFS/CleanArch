@@ -12,7 +12,7 @@ namespace CleanArch.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var categories = await _categoryService.GetCategories(new CancellationToken());
+            var categories = await this._categoryService.GetCategories(new CancellationToken());
 
             return View(categories);
         }

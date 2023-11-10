@@ -25,6 +25,9 @@ namespace CleanArch.Infra.Data.UnitOfWork
             return repository;
         }
 
+        public async Task BeginTransaction() 
+            => await this._context.Database.BeginTransactionAsync();
+
         public async Task Commit()
             => await this._context.SaveChangesAsync();
 

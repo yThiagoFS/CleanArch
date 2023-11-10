@@ -1,115 +1,109 @@
 ﻿using AutoMapper;
 using CleanArch.Application.DTOs;
 using CleanArch.Application.Interfaces;
-using CleanArch.Domain.Entities;
-using CleanArch.Domain.Repositories;
-using CleanArch.Domain.UnitOfWork;
+using CleanArch.Application.Products.Commands;
+using CleanArch.Application.Products.Queries;
+using MediatR;
 
 namespace CleanArch.Application.Services
 {
     public class ProductService : IProductService
     {
         private readonly IMapper _mapper;
-        private readonly IProductRepository _productRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediator _mediator;
 
         public ProductService(
-            IProductRepository productRepository
-            , IMapper mapper
-            , IUnitOfWork unitOfWork )
+            IMapper mapper
+            , IMediator mediator )
         {
             _mapper = mapper;
-            _productRepository = productRepository;
-            _unitOfWork = unitOfWork;
+            _mediator = mediator;
         }
 
         public async Task AddProduct(ProductDto productDto, CancellationToken cancellationToken)
-        {
-            var product = _mapper.Map<Product>(productDto);
+            =>  await _mediator.Send(_mapper.Map<ProductCreateCommand>(productDto));
+            // try
+            // {
+            //     await _productRepository.Add(product);
 
-            try
-            {
-                await _productRepository.Add(product);
+            //     await _unitOfWork.Commit();
+            // }
+            // catch (Exception ex)
+            // {
+            //     await _unitOfWork.Rollback();
 
-                await _unitOfWork.Commit();
-            }
-            catch (Exception ex)
-            {
-                await _unitOfWork.Rollback();
-
-                throw new Exception(ex.Message);
-            }
-        }
+            //     throw new Exception(ex.Message);
+            // }
 
         public async Task DeleteProduct(ProductDto productDto, CancellationToken cancellationToken)
-        {
-            var product = _mapper.Map<Product>(productDto);
+            =>
+            //Realizar o delete através do Product Dto -- CORRIGIR
+             await _mediator.Send(new ProductRemoveCommand(productDto.Id));
+            // var product = _mapper.Map<Product>(productDto);
 
-            await DeleteProduct(product, cancellationToken);
-        }
+            // await DeleteProduct(product, cancellationToken);
 
         public async Task DeleteProductById(long? id, CancellationToken cancellationToken)
-        {
-            var product = await _productRepository.GetById(id);
-
-            await DeleteProduct(product, cancellationToken);
-        }
+            => await _mediator.Send(new ProductRemoveCommand((long)id));
 
         public async Task<ProductDto> GetProductById(long? id, CancellationToken cancellationToken)
-        {
-            var product = await _productRepository.GetById(id);
+            => _mapper.Map<ProductDto>(await _mediator.Send(new GetProductByIdQuery((long)id)));
+            // var product = await _productRepository.GetById(id);
 
-            return _mapper.Map<ProductDto>(product);
-        }
+            // return _mapper.Map<ProductDto>(product);
 
         public async Task<IEnumerable<ProductDto>> GetProducts(CancellationToken cancellationToken)
         {
-            var products = await _productRepository.GetAll();
+            return _mapper.Map<IEnumerable<ProductDto>>(await _mediator.Send(new GetProductsQuery()));
+            // var products = await _productRepository.GetAll();
 
-            return _mapper.Map<IEnumerable<ProductDto>>(products);
+            // return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
         public async Task<ProductDto?> GetWithCategoryById(long? id, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetWithCategoryById(id);
+            //Não está retornando com categorias -- CORRIGIR
+            return _mapper.Map<ProductDto>(await _mediator.Send(new GetProductByIdQuery((long)id)));
 
-            return _mapper.Map<ProductDto>(product);
+            // var product = await _productRepository.GetWithCategoryById(id);
+
+            // return _mapper.Map<ProductDto>(product);
         }
 
         public async Task<ProductDto> UpdateProduct(ProductDto productDto, CancellationToken cancellationToken)
-        {
-            var product = _mapper.Map<Product>(productDto);
+            => _mapper.Map<ProductDto>(await _mediator.Send(_mapper.Map<ProductUpdateCommand>(productDto)));
 
-            try
-            {
-                var productUpdated = await _productRepository.Update(product);
+            // var product = _mapper.Map<Product>(productDto);
 
-                await _unitOfWork.Commit();
+            // try
+            // {
+            //     var productUpdated = await _productRepository.Update(product);
 
-                return _mapper.Map<ProductDto>(productUpdated);
-            }
-            catch (Exception ex)
-            {
-                await _unitOfWork.Rollback();
+            //     await _unitOfWork.Commit();
 
-                throw new Exception(ex.Message);
-            }
-        }
+            //     return _mapper.Map<ProductDto>(productUpdated);
+            // }
+            // catch (Exception ex)
+            // {
+            //     await _unitOfWork.Rollback();
 
-        private async Task DeleteProduct(Product product, CancellationToken cancellationToken)
-        {
-            try
-            {
-                await _productRepository.Delete(product);
+            //     throw new Exception(ex.Message);
+            // }
 
-                await _unitOfWork.Commit();
-            }
-            catch (Exception ex)
-            {
-                await _unitOfWork.Rollback();
+        // private async Task DeleteProduct(Product product, CancellationToken cancellationToken)
+        // {
+        //     try
+        //     {
+        //         await _productRepository.Delete(product);
 
-                throw new Exception(ex.Message);
-            }
-        }
+        //         await _unitOfWork.Commit();
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         await _unitOfWork.Rollback();
+
+        //         throw new Exception(ex.Message);
+        //     }
+        // }
     }
 }

@@ -13,7 +13,7 @@ namespace CleanArch.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var products = await _productService.GetProducts(new CancellationToken());
+            var products = await this._productService.GetProducts(new CancellationToken());
 
             return View(products);
         }
